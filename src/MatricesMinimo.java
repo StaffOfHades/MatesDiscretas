@@ -4,8 +4,6 @@
  */
 public class MatricesMinimo {
 
-    private static int recurrencias = 0;
-
     public static void main(String[] args) {
         calcularMinimoMultiplicaciones(new int[]{30, 35, 15, 5, 10, 20, 25});
     }
@@ -19,6 +17,7 @@ public class MatricesMinimo {
         int tamañoArreglo = (tamanoLados) * ( tamanoLados + 1 ) / 2;
 
         int[] numeroMinimo = new int[tamañoArreglo];
+        int[] recurrencias = new int[2];
 
         for (int i = 0; i < tamañoArreglo; i++) {
             if (i < tamanoLados)
@@ -30,21 +29,25 @@ public class MatricesMinimo {
 
         System.out.println("Tamano del Arreglo Principal: " + tamañoArreglo);
 
-        sacarMinimo(numeroMinimo, 0, tamanoLados - 1, tamanoLados);
+        sacarMinimo(numeroMinimo, recurrencias, tamanoLados, 0, tamanoLados - 1);
 
         for (int i = 0; i < numeroMinimo.length; i++) {
             System.out.println("Indice " + (i < 10 ? "0" : "") + i + ": " + numeroMinimo[i]);
         }
 
         // Numero de recurrencias = 2^(tamañosLados - 1) - 1
-        System.out.println("Recurrencias: " + recurrencias);
+        System.out.println("N: " + tamanoLados);
+        System.out.println("Recurrencias de entrada: " + recurrencias[0]);
+        System.out.println("Recurrencias de entrada es igual a 2^(n-2)");
+        System.out.println("Recurrencias solo de trabajo: " + recurrencias[1]);
+        System.out.println("Recurrencias solo de trabajo es igual a (n-2)(n-1)/2");
     }
 
-    private static void sacarMinimo(int[] numeroMinimo, int inizio, int end, int tamanoLados) {
+    private static void sacarMinimo(int[] numeroMinimo, int[] recurrencias, int tamanoLados, int inizio, int end) {
 
         final int tamano = end - inizio;
 
-        recurrencias++;
+        recurrencias[0]++;
 
         if ( !(tamano > 1) ) {
             return;
@@ -60,8 +63,10 @@ public class MatricesMinimo {
         if (numeroMinimo[indice] < Integer.MAX_VALUE)
             return;
 
+        recurrencias[1]++;
+
         for (int i = 0; i <= (tamanoLados - tamano + 1); i++) {
-            sacarMinimo(numeroMinimo, inizio + i, end - 1 + i, tamanoLados);
+            sacarMinimo(numeroMinimo, recurrencias, tamanoLados, inizio + i, end - 1 + i);
             if (i > 0)
                 break;
         }
