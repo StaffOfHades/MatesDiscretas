@@ -4,9 +4,9 @@
  */
 public class MatricesMinimo {
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         calcularMinimoMultiplicaciones(new int[]{30, 35, 15, 5, 10, 20, 25});
-    }
+    }*/
 
     public static void calcularMinimoMultiplicaciones(int[] ladosMatrizes) {
         if (ladosMatrizes.length < 1)
