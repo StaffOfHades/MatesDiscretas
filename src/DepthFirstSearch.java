@@ -19,6 +19,7 @@ public class DepthFirstSearch<E> {
             while (vertexIterator.hasNext()) {
                 v = vertexIterator.next();
                 if (v.state == Vertex.ColorState.White) {
+                    graph.result += "\n" + v.value;
                     visit(graph, v);
                 }
             }
@@ -30,7 +31,7 @@ public class DepthFirstSearch<E> {
         time++;
         from.discoveryTime = time;
 
-        System.out.println("Vertex " + from.value + " discovered at time " + time);
+        //System.out.println("Vertex " + from.value + " discovered at time " + time);
 
         //discover(graph, v);
 
@@ -41,7 +42,8 @@ public class DepthFirstSearch<E> {
                 to = edgeIterator.next();
                 if (to.state == Vertex.ColorState.White) {
                     to.parent = from;
-                    System.out.println("Vertex " + from.value + " is parent of vertex " + to.value);
+                    graph.result += " - " + to.value;
+                    //System.out.println("Vertex " + from.value + " is parent of vertex " + to.value);
                     visit(graph, to);
                 }
             }
@@ -51,7 +53,7 @@ public class DepthFirstSearch<E> {
         time++;
         from.finishTime = time;
 
-        System.out.println("Vertex " + from.value + " finised exploring at time " + time);
+        //System.out.println("Vertex " + from.value + " finised exploring at time " + time);
         //finish(graph, v);
     }
 

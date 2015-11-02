@@ -26,11 +26,16 @@ public class ConsoleView {
 
         GraphView<String> view = new GraphView<String>(directed);
 
+        System.out.println("Input");
+
         String[] vertexes;
         for (String line : lines) {
+            System.out.println(line);
             vertexes = line.split("-");
             view.addVertex( vertexes[0].trim() );
         }
+
+        System.out.println();
 
         Vertex<String> from, to;
         for (String line : lines) {
@@ -40,14 +45,17 @@ public class ConsoleView {
             view.addEdge( from, to);
         }
 
-        DepthFirstSearch<String> search = new DepthFirstSearch<String>();
+        DepthFirstSearch<String> depth = new DepthFirstSearch<String>();
 
-        search.search(view);
+        depth.search(view);
 
+        view.saveToFile("/Users/mauriciog/IdeaProjects/MatematicasDiscretas/src/Output", "Depth First Search");
 
-        System.out.println();
+        System.out.println("Result" + view.result);
 
+        BreadthFirstSearch<String> breathd = new BreadthFirstSearch<String>();
 
+        breathd.search(view);
     }
 
 }

@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -9,11 +12,13 @@ public class GraphView<E> implements Graph<E> {
     private final List<Vertex<E>> mVertexList;
     private final Map<Vertex<E>, List<Vertex<E>>> mVertexListMap;
     private final boolean isDirected;
+    public String result;
 
     public GraphView(boolean isDirected) {
         this.isDirected = isDirected;
         mVertexList = new ArrayList<Vertex<E>>();
         mVertexListMap = new HashMap<Vertex<E>, List<Vertex<E>>>();
+        result = "";
     }
 
     @Override
@@ -129,6 +134,20 @@ public class GraphView<E> implements Graph<E> {
     public void resetVertexState() {
         for (Vertex<E> vertex : mVertexList) {
             vertex.reset();
+        }
+        result = "";
+    }
+
+    public boolean saveToFile(String fileName, String type) {
+        try {
+            File output = new File(fileName);
+            FileWriter fooStream = new FileWriter(output, false);
+            fooStream.write(type + result);
+            fooStream.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

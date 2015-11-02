@@ -19,6 +19,7 @@ public class Vertex<E> {
         discoveryTime = 0;
         finishTime = 0;
         distance = Integer.MAX_VALUE;
+        state = ColorState.White;
     }
 
     public enum ColorState {
