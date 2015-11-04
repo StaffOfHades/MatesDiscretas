@@ -64,8 +64,8 @@ public class ConsoleView {
             }
         }
 
-        depth.search(view, OUTPUT);
         breadth.search(view, OUTPUT);
+        depth.search(view, OUTPUT);
 
     }
 

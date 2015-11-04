@@ -14,7 +14,6 @@ public class Vertex<E> {
     public List<Vertex<E>> children;
     public String branch;
     public int discoveryTime, finishTime, depth;
-    public boolean hasParent;
 
     public Vertex(E value) {
         this.value = value;
@@ -22,7 +21,6 @@ public class Vertex<E> {
     }
 
     public void reset() {
-        hasParent = true;
         children.clear();
         branch = "";
         discoveryTime = 0;

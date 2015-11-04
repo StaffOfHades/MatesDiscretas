@@ -73,7 +73,7 @@ public class GraphView<E> {
         }
     }
 
-    public boolean saveToFile(String fileName, String title, Iterator<Vertex<E>> iterator) {
+    public boolean saveToFile(String fileName, String title, List<Vertex<E>> list) {
         Vertex<E> vertex;
         try {
             File output = new File(fileName);
@@ -83,50 +83,17 @@ public class GraphView<E> {
             System.out.println("\n" + title + " Result");
 
             List<String> lines ;
-            Vertex<E> parent;
-            if ( iterator != null) {
-                while ( iterator.hasNext() ) {
-                    parent = iterator.next();
-                    if (!parent.hasParent) {
-                        for (Vertex<E> v : parent.children) {
-                            lines = getResult(v, new ArrayList<String>() );
-                            for (String line : lines) {
-                                stream.write("\n");
-                                stream.write(line);
-                                System.out.println(line);
-                            }
-                        }
-                    }
+            for (Vertex<E> v : list) {
+                lines = getResult(v, new ArrayList<String>() );
+                for (String line : lines) {
+                    stream.write("\n");
+                    stream.write(line);
+                    System.out.println(line);
                 }
             }
 
             stream.write("\n");
             stream.write("\n");
-
-            stream.close();
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean saveToFile(String fileName, String title, Vertex<E> parent) {
-        Vertex<E> vertex;
-        try {
-            File output = new File(fileName);
-            FileWriter stream = new FileWriter(output, true);
-
-            stream.write("\n");
-            stream.write(title);
-            System.out.println("\n" + title + " Result");
-
-            List<String> lines = getResult(parent, new ArrayList<String>() );
-            for (String line : lines) {
-                stream.write("\n");
-                stream.write(line);
-                System.out.println(line);
-            }
 
             stream.close();
             return true;

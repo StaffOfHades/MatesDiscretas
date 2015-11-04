@@ -1,49 +1,37 @@
 package graphs;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Default Template. Information about thus class should go here
  * Created by mauriciog on 10/29/15 for MatematicasDiscretas
  */
-public class DepthFirstSearch<E> {
+public class DepthFirstSearch<E> extends AbstractFirstSearch<E> {
 
     private final static String TAG = "Depth First Search";
 
-    private int time;
-    private String divider;
+    public DepthFirstSearch() {
+        super(TAG);
+    }
 
-    public DepthFirstSearch() {}
-
-    public void search(GraphView<E> graph, String fileName) {
-        System.out.println("\n" + TAG + " Process");
-
-        if ( graph.isDirected() ) {
-            divider = " -> ";
-        } else {
-            divider = " <-> ";
-        }
-
-        time = 0;
-
-        graph.resetVertexState();
-        Iterator<Vertex<E>> vertexIterator = graph.vertexIterator();
-        if (vertexIterator != null) {
-            Vertex<E> from;
-            while (vertexIterator.hasNext()) {
-                from = vertexIterator.next();
-                if (from.state == Vertex.VisitState.Undiscovered) {
-                    from.branch = from.value.toString();
-                    from.hasParent = false;
-                    System.out.println("Visiting new parent " + from.value);
-                    visit(graph, from);
-                } else {
-                    System.out.println(from.value + " has already been discovered");
-                }
+    @Override
+    protected List<Vertex<E>> internalSearch(GraphView<E> graph, Iterator<Vertex<E>> iterator) {
+        List<Vertex<E>> list = new ArrayList<Vertex<E>>();
+        Vertex<E> from;
+        while (iterator.hasNext()) {
+            from = iterator.next();
+            if (from.state == Vertex.VisitState.Undiscovered) {
+                list.add(from);
+                from.branch = from.value.toString();
+                System.out.println("Visiting new parent " + from.value);
+                visit(graph, from);
+            } else {
+                System.out.println(from.value + " has already been discovered");
             }
-            System.out.println("Saving result to " + fileName);
-            graph.saveToFile( fileName, TAG, graph.vertexIterator() );
         }
+        return list;
     }
 
     private void visit(GraphView<E> graph, Vertex<E> from) {
