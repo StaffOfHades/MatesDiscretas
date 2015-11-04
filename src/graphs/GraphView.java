@@ -78,7 +78,9 @@ public class GraphView<E> {
         try {
             File output = new File(fileName);
             FileWriter stream = new FileWriter(output, true);
+
             stream.write(title);
+            System.out.println("\n" + title + " Result");
 
             List<String> lines ;
             Vertex<E> parent;
@@ -91,6 +93,7 @@ public class GraphView<E> {
                             for (String line : lines) {
                                 stream.write("\n");
                                 stream.write(line);
+                                System.out.println(line);
                             }
                         }
                     }
@@ -116,11 +119,13 @@ public class GraphView<E> {
 
             stream.write("\n");
             stream.write(title);
+            System.out.println("\n" + title + " Result");
 
             List<String> lines = getResult(parent, new ArrayList<String>() );
             for (String line : lines) {
                 stream.write("\n");
                 stream.write(line);
+                System.out.println(line);
             }
 
             stream.close();

@@ -8,11 +8,15 @@ import java.util.Iterator;
  */
 public class DepthFirstSearch<E> {
 
+    private final static String TAG = "Depth First Search";
+
     protected int time;
 
     public DepthFirstSearch() {}
 
-    public void search(GraphView<E> graph) {
+    public void search(GraphView<E> graph, String fileName) {
+        System.out.println("\n" + TAG + " Process");
+
         time = 0;
 
         graph.resetVertexState();
@@ -30,6 +34,8 @@ public class DepthFirstSearch<E> {
                     System.out.println(from.value + " has already been discovered");
                 }
             }
+            System.out.println("Saving result to " + fileName);
+            graph.saveToFile( fileName, TAG, graph.vertexIterator() );
         }
     }
 

@@ -10,11 +10,15 @@ import java.util.Queue;
  */
 public class BreadthFirstSearch<E> {
 
+    private static final String TAG = "Breadth First Search";
+
     protected int time;
 
     public BreadthFirstSearch() {}
 
-    public void search(GraphView<E> graph) {
+    public void search(GraphView<E> graph, String fileName) {
+        System.out.println("\n" + TAG + " Process");
+
         time = 0;
         graph.resetVertexState();
 
@@ -64,6 +68,8 @@ public class BreadthFirstSearch<E> {
                 }
 
             }
+            System.out.println("Saving result to " + fileName);
+            graph.saveToFile(fileName, TAG, progenitor);
         }
 
     }
