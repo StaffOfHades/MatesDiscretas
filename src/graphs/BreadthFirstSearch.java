@@ -20,59 +20,52 @@ public class BreadthFirstSearch<E> {
 
         Iterator<Vertex<E>> vertexIterator = graph.vertexIterator();
         if (vertexIterator != null) {
-            Vertex<E> parent = vertexIterator.next();
-            parent.hasParent = false;
-            parent.depth = 0;
-            parent.branch = parent.value.toString();
-            System.out.println("Visiting parent " + parent.value);
-            visit(graph, parent);
-        }
+            Vertex<E> progenitor = vertexIterator.next();
+            progenitor.hasParent = false;
+            progenitor.depth = 0;
+            progenitor.state = Vertex.VisitState.Discovered;
+            progenitor.branch = progenitor.value.toString();
+            System.out.println("Discovered parent " + progenitor.value);
 
-    }
+            Queue<Vertex<E>> queue = new LinkedList<Vertex<E>>();
 
-    private void visit(GraphView<E> graph, Vertex<E> from) {
+            queue.add(progenitor);
+            System.out.println("Added " + progenitor.value + " to new queue");
 
-        System.out.println("Creating new queue");
-        Queue<Vertex<E>> queue = new LinkedList<Vertex<E>>();
+            Vertex<E> child;
+            Iterator<Vertex<E>> edgeIterator;
+            while( !queue.isEmpty() ) {
+                Vertex<E> parent = queue.remove();
+                System.out.println("Removed " + parent.value + " from queue");
+                edgeIterator = graph.edgeIterator(parent);
+                if (edgeIterator != null) {
+                    while ( edgeIterator.hasNext() ) {
+                        child = edgeIterator.next();
+                        System.out.println("Connection exists from " + parent.value + " to " + child.value);
+                        if (child.state == Vertex.VisitState.Undiscovered) {
+                            child.state = Vertex.VisitState.Discovered;
+                            System.out.println(child.value + " has been discovered");
 
-        from.state = Vertex.VisitState.Discovered;
-        queue.add(from);
+                            parent.children.add(child);
+                            System.out.println(child.value + " is a new child of " + parent.value);
 
-        System.out.println("Adding " + from.value + " to new queue");
+                            child.depth = parent.depth + 1;
+                            System.out.println(child.value  + " has a depth of " + child.depth);
 
-        Vertex<E> child;
-        Iterator<Vertex<E>> edgeIterator;
-        while( !queue.isEmpty() ) {
-            Vertex<E> parent = queue.remove();
-            System.out.println("Removed " + parent.value + " from queue");
-            edgeIterator = graph.edgeIterator(parent);
-            if (edgeIterator != null) {
-                while ( edgeIterator.hasNext() ) {
-                    child = edgeIterator.next();
-                    System.out.println("Connection exist from " + parent.value + " to " + child.value);
-                    if (child.state == Vertex.VisitState.Undiscovered) {
-                        child.state = Vertex.VisitState.Discovered;
-                        System.out.println(child.value + " has been discovered");
+                            child.branch = parent.branch + " - " + child.value;
+                            System.out.println("Branch for " + child.value  + " is " + child.branch);
 
-
-                        parent.children.add(child);
-                        System.out.println(child.value + " is new child of " + parent.value);
-
-                        child.depth = parent.depth + 1;
-                        System.out.println(child.value  + " has a depth of " + child.depth);
-
-                        child.branch = parent.branch + " - " + child.value;
-                        System.out.println("Branch for " + child.value  + " is " + child.branch);
-
-                        System.out.println("Adding " + child.value + " to queue");
-                        queue.add(child);
-                    } else {
-                        System.out.println(child.value + " already has a been discovered");
+                            queue.add(child);
+                            System.out.println("Added " + child.value + " to queue");
+                        } else {
+                            System.out.println(child.value + " already has a been discovered");
+                        }
                     }
                 }
-            }
 
+            }
         }
+
     }
 
 }
