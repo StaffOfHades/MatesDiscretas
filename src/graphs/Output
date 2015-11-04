@@ -1,3 +1,10 @@
 Depth First Search
 u - v - y - x
+u - v - a
 w - z
+
+
+Breadth First Search
+u - v - y
+u - v - a
+u - x

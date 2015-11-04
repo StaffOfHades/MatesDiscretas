@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -47,17 +48,30 @@ public class ConsoleView {
             view.addEdge(from, to);
         }
 
+        view.clearFileText("/Users/mauriciog/IdeaProjects/MatematicasDiscretas/src/graphs/Output");
+
         DepthFirstSearch<String> depth = new DepthFirstSearch<String>();
+        BreadthFirstSearch<String> breathd = new BreadthFirstSearch<String>();
+
+        System.out.println("Staring depth search");
 
         depth.search(view);
 
-        view.saveToFile("/Users/mauriciog/IdeaProjects/MatematicasDiscretas/src/graphs/Output", "Depth First Search");
+        Iterator<Vertex<String>> iterator = view.vertexIterator();
+        view.saveToFile("/Users/mauriciog/IdeaProjects/MatematicasDiscretas/src/graphs/Output", "Depth First Search", iterator);
 
-        System.out.println("Result" + view.result);
+        System.out.println("");
 
-        BreadthFirstSearch<String> breathd = new BreadthFirstSearch<String>();
+        System.out.println("Staring breath search");
 
         breathd.search(view);
+
+        iterator = view.vertexIterator();
+        if ( iterator != null && iterator.hasNext() ) {
+            Vertex<String> parent = iterator.next();
+            view.saveToFile("/Users/mauriciog/IdeaProjects/MatematicasDiscretas/src/graphs/Output", "Breadth First Search", parent);
+        }
+
     }
 
 }

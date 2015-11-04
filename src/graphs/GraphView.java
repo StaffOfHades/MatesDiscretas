@@ -14,13 +14,11 @@ public class GraphView<E> {
     private final List<Vertex<E>> mVertexList;
     private final Map<Vertex<E>, List<Vertex<E>>> mVertexListMap;
     private final boolean isDirected;
-    public String result;
 
     public GraphView(boolean isDirected) {
         this.isDirected = isDirected;
         mVertexList = new ArrayList<Vertex<E>>();
         mVertexListMap = new HashMap<Vertex<E>, List<Vertex<E>>>();
-        result = "";
     }
 
     public Vertex<E> addVertex(E value) {
@@ -73,19 +71,87 @@ public class GraphView<E> {
         for (Vertex<E> vertex : mVertexList) {
             vertex.reset();
         }
-        result = "";
     }
 
-    public boolean saveToFile(String fileName, String type) {
+    public boolean saveToFile(String fileName, String title, Iterator<Vertex<E>> iterator) {
+        Vertex<E> vertex;
         try {
             File output = new File(fileName);
-            FileWriter stream = new FileWriter(output, false);
-            stream.write(type + result);
+            FileWriter stream = new FileWriter(output, true);
+            stream.write(title);
+
+            List<String> lines ;
+            Vertex<E> parent;
+            if ( iterator != null) {
+                while ( iterator.hasNext() ) {
+                    parent = iterator.next();
+                    if (parent.parent == null) {
+                        for (Vertex<E> v : parent.children) {
+                            lines = getResult(v, new ArrayList<String>() );
+                            for (String line : lines) {
+                                stream.write("\n");
+                                stream.write(line);
+                            }
+                        }
+                    }
+                }
+            }
+
+            stream.write("\n");
+            stream.write("\n");
+
             stream.close();
             return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean saveToFile(String fileName, String title, Vertex<E> parent) {
+        Vertex<E> vertex;
+        try {
+            File output = new File(fileName);
+            FileWriter stream = new FileWriter(output, true);
+
+            stream.write("\n");
+            stream.write(title);
+
+            List<String> lines = getResult(parent, new ArrayList<String>() );
+            for (String line : lines) {
+                stream.write("\n");
+                stream.write(line);
+            }
+
+            stream.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean clearFileText(String fileName) {
+        try {
+            File output = new File(fileName);
+            FileWriter stream = new FileWriter(output, false);
+            stream.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private List<String> getResult(Vertex<E> parent, List<String> lines) {
+        if (parent.children.size() == 0) {
+            lines.add(parent.result);
+            return lines;
+        } else {
+            for (Vertex<E> child : parent.children) {
+                lines = getResult(child, lines);
+            }
+        }
+        return lines;
     }
 }

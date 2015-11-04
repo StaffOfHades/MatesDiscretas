@@ -14,15 +14,20 @@ public class DepthFirstSearch<E> {
 
     public void search(GraphView<E> graph) {
         time = 0;
+
         graph.resetVertexState();
         Iterator<Vertex<E>> vertexIterator = graph.vertexIterator();
         if (vertexIterator != null) {
-            Vertex<E> v;
+            Vertex<E> from;
             while (vertexIterator.hasNext()) {
-                v = vertexIterator.next();
-                if (v.state == Vertex.ColorState.White) {
-                    graph.result += "\n" + v.value;
-                    visit(graph, v);
+                from = vertexIterator.next();
+                System.out.println("Found node " + from.value);
+                if (from.state == Vertex.ColorState.White) {
+                    from.result = from.value.toString();
+                    System.out.println("Visiting undiscovered node " + from.value);
+                    visit(graph, from);
+                } else {
+                    System.out.println("Node " + from.value + " has already been discovered");
                 }
             }
         }
@@ -33,7 +38,7 @@ public class DepthFirstSearch<E> {
         from.discoveryTime = time;
         time++;
 
-        //System.out.println("graphs.Vertex " + from.value + " discovered at time " + time);
+        System.out.println("Found " + from.value + " at time " + from.discoveryTime);
 
         //discover(graph, v);
 
@@ -42,11 +47,16 @@ public class DepthFirstSearch<E> {
             Vertex<E> to;
             while (edgeIterator.hasNext()) {
                 to = edgeIterator.next();
+                System.out.println("Found connection to " + to.value);
                 if (to.state == Vertex.ColorState.White) {
+                    System.out.println(to.value  + " has new connection from " + from.value);
                     to.parent = from;
-                    graph.result += " - " + to.value;
-                    //System.out.println("graphs.Vertex " + from.value + " is parent of vertex " + to.value);
+                    from.children.add(to);
+                    to.result = from.result + " - " + to.value;
+                    System.out.println("Visiting " + to.value);
                     visit(graph, to);
+                } else {
+                    System.out.println(to.value + " has already been discovered");
                 }
             }
         }
@@ -55,7 +65,7 @@ public class DepthFirstSearch<E> {
         from.finishTime = time;
         time++;
 
-        //System.out.println("graphs.Vertex " + from.value + " finised exploring at time " + time);
+        System.out.println("Finished exploring node " + from.value + " at time " + from.finishTime);
         //finish(graph, v);
     }
 
