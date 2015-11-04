@@ -12,14 +12,20 @@ public class BreadthFirstSearch<E> {
 
     private static final String TAG = "Breadth First Search";
 
-    protected int time;
+
+    private String divider;
 
     public BreadthFirstSearch() {}
 
     public void search(GraphView<E> graph, String fileName) {
         System.out.println("\n" + TAG + " Process");
 
-        time = 0;
+        if ( graph.isDirected() ) {
+            divider = " -> ";
+        } else {
+            divider = " <-> ";
+        }
+
         graph.resetVertexState();
 
         Iterator<Vertex<E>> vertexIterator = graph.vertexIterator();
@@ -56,7 +62,7 @@ public class BreadthFirstSearch<E> {
                             child.depth = parent.depth + 1;
                             System.out.println(child.value  + " has a depth of " + child.depth);
 
-                            child.branch = parent.branch + " - " + child.value;
+                            child.branch = parent.branch + divider + child.value;
                             System.out.println("Branch for " + child.value  + " is " + child.branch);
 
                             queue.add(child);

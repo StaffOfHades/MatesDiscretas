@@ -10,12 +10,19 @@ public class DepthFirstSearch<E> {
 
     private final static String TAG = "Depth First Search";
 
-    protected int time;
+    private int time;
+    private String divider;
 
     public DepthFirstSearch() {}
 
     public void search(GraphView<E> graph, String fileName) {
         System.out.println("\n" + TAG + " Process");
+
+        if ( graph.isDirected() ) {
+            divider = " -> ";
+        } else {
+            divider = " <-> ";
+        }
 
         time = 0;
 
@@ -58,7 +65,7 @@ public class DepthFirstSearch<E> {
                     from.children.add(to);
                     System.out.println(from.value + " is now connected to " + to.value);
 
-                    to.branch = from.branch + " - " + to.value;
+                    to.branch = from.branch + divider + to.value;
                     System.out.println("Branch for " + to.value  + " is " + to.branch);
 
                     System.out.println("Visiting " + to.value);

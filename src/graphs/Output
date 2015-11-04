@@ -1,13 +1,13 @@
 Depth First Search
-a - b - c - j
-a - b - d - e - f - g
-a - b - d - e - h - i
-x - y - z
+a -> b -> c -> j
+a -> b -> d -> e -> f -> g
+a -> b -> d -> e -> h -> i
+x -> y -> z
 
 
 Breadth First Search
-a - b - d - e - f
-a - b - d - e - g
-a - b - d - e - h
-a - b - d - e - i
-a - c - j
+a -> b -> d -> e -> f
+a -> b -> d -> e -> g
+a -> b -> d -> e -> h
+a -> b -> d -> e -> i
+a -> c -> j

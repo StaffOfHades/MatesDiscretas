@@ -13,7 +13,7 @@ import java.util.List;
 public class ConsoleView {
 
     private static final String
-            INPUT = "/Users/mauriciog/IdeaProjects/MatematicasDiscretas/src/graphs/Vertexes",
+            INPUT = "/Users/mauriciog/IdeaProjects/MatematicasDiscretas/src/graphs/Input",
             OUTPUT = "/Users/mauriciog/IdeaProjects/MatematicasDiscretas/src/graphs/Output";
 
     public static void main(String[] args) throws IOException {
