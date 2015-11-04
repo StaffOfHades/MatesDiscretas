@@ -21,8 +21,9 @@ public class BreadthFirstSearch<E> {
         Iterator<Vertex<E>> vertexIterator = graph.vertexIterator();
         if (vertexIterator != null) {
             Vertex<E> parent = vertexIterator.next();
-            parent.distance = 0;
-            parent.result = parent.value.toString();
+            parent.hasParent = false;
+            parent.depth = 0;
+            parent.branch = parent.value.toString();
             System.out.println("Visiting parent " + parent.value);
             visit(graph, parent);
         }
@@ -30,40 +31,43 @@ public class BreadthFirstSearch<E> {
     }
 
     private void visit(GraphView<E> graph, Vertex<E> from) {
-        System.out.println("Creating new queque");
+
+        System.out.println("Creating new queue");
         Queue<Vertex<E>> queue = new LinkedList<Vertex<E>>();
 
-        from.state = Vertex.ColorState.Gray;
+        from.state = Vertex.VisitState.Discovered;
         queue.add(from);
 
-        System.out.println("Adding " + from.value + " to new queque");
+        System.out.println("Adding " + from.value + " to new queue");
 
         Vertex<E> child;
         Iterator<Vertex<E>> edgeIterator;
         while( !queue.isEmpty() ) {
             Vertex<E> parent = queue.remove();
-            System.out.println("Removed " + parent.value + " from queque");
+            System.out.println("Removed " + parent.value + " from queue");
             edgeIterator = graph.edgeIterator(parent);
             if (edgeIterator != null) {
                 while ( edgeIterator.hasNext() ) {
                     child = edgeIterator.next();
-                    System.out.println("Found connection to  " + child.value);
-                    if (child.state == Vertex.ColorState.White) {
+                    System.out.println("Connection exist from " + parent.value + " to " + child.value);
+                    if (child.state == Vertex.VisitState.Undiscovered) {
+                        child.state = Vertex.VisitState.Discovered;
+                        System.out.println(child.value + " has been discovered");
+
+
                         parent.children.add(child);
-                        child.parent = parent;
                         System.out.println(child.value + " is new child of " + parent.value);
 
-                        child.distance = parent.distance + 1;
-                        System.out.println(child.value  + " has a depth of " + child.distance);
+                        child.depth = parent.depth + 1;
+                        System.out.println(child.value  + " has a depth of " + child.depth);
 
-                        child.result = parent.result + " - " + child.value;
-                        System.out.println("Result for " + child.value  + " is " + child.result);
+                        child.branch = parent.branch + " - " + child.value;
+                        System.out.println("Branch for " + child.value  + " is " + child.branch);
 
-                        child.state = Vertex.ColorState.Gray;
-                        System.out.println("Adding " + child.value + " to queque");
+                        System.out.println("Adding " + child.value + " to queue");
                         queue.add(child);
                     } else {
-                        System.out.println(child.value + " already has a been explored");
+                        System.out.println(child.value + " already has a been discovered");
                     }
                 }
             }

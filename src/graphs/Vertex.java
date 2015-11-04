@@ -10,30 +10,29 @@ import java.util.List;
 public class Vertex<E> {
 
     public final E value;
-    public ColorState state;
+    public VisitState state;
     public List<Vertex<E>> children;
-    public String result;
-    public int discoveryTime, finishTime, distance;
-    public Vertex<E> parent;
+    public String branch;
+    public int discoveryTime, finishTime, depth;
+    public boolean hasParent;
 
     public Vertex(E value) {
         this.value = value;
         children = new ArrayList<Vertex<E>>();
-        state = ColorState.White;
     }
 
     public void reset() {
-        parent = null;
+        hasParent = true;
         children.clear();
-        result = "";
+        branch = "";
         discoveryTime = 0;
         finishTime = 0;
-        distance = Integer.MAX_VALUE;
-        state = ColorState.White;
+        depth = 0;
+        state = VisitState.Undiscovered;
     }
 
-    public enum ColorState {
-        White, Gray, Black;
+    public enum VisitState {
+        Undiscovered, Discovered, Explored;
     }
 
 

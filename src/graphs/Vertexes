@@ -1,9 +1,18 @@
 true
-u - v
-u - x
-v - y
-w - y
-w - z
-x - v
-y - x
+a - b
+a - c
+b - c
+b - d
+c - j
+d - e
+d - c
+e - f
+e - g
+e - h
+e - i
+f - g
+h - i
+x - y
+y - z
+z - x
 z - z

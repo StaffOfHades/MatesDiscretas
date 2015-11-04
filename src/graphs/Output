@@ -1,10 +1,13 @@
 Depth First Search
-u - v - y - x
-u - v - a
-w - z
+a - b - c
+a - b - d - e - f - g
+a - b - d - e - h - i
+x - y - z
 
 
 Breadth First Search
-u - v - y
-u - v - a
-u - x
+a - b - d - e - f
+a - b - d - e - g
+a - b - d - e - h
+a - b - d - e - i
+a - c

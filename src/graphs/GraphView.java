@@ -85,7 +85,7 @@ public class GraphView<E> {
             if ( iterator != null) {
                 while ( iterator.hasNext() ) {
                     parent = iterator.next();
-                    if (parent.parent == null) {
+                    if (!parent.hasParent) {
                         for (Vertex<E> v : parent.children) {
                             lines = getResult(v, new ArrayList<String>() );
                             for (String line : lines) {
@@ -145,7 +145,7 @@ public class GraphView<E> {
 
     private List<String> getResult(Vertex<E> parent, List<String> lines) {
         if (parent.children.size() == 0) {
-            lines.add(parent.result);
+            lines.add(parent.branch);
             return lines;
         } else {
             for (Vertex<E> child : parent.children) {
